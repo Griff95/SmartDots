@@ -9,6 +9,11 @@ class Obstacle {
   }
 
   draw() {
+    fill(0, 0, 255);
     rect(this.x, this.y, this.dim_x, this.dim_y);
+  }
+
+  inside(x, y) {
+
   }
 }

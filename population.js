@@ -7,14 +7,16 @@ class Population {
   minStep = 1000;
   size;
   bestWay = [];
-  initial_x = width/2;
-  initial_y = height-10;
+  initial_x;
+  initial_y;
 
-  constructor(id, size) {
+  constructor(id, size, startPos_x, startPos_y) {
+    this.initial_x = startPos_x;
+    this.initial_y = startPos_y;
     this.id = id;
     this.size = size;
     for (let i = 0; i < size; i++) {
-      this.dots[i] = new Dot();
+      this.dots[i] = new Dot(width/2, height-10);
     }
   }
 
@@ -27,7 +29,7 @@ class Population {
       this.dots[0].show();
       fill(0);
       textSize(15);
-      text(" " +population.id, population.dots[0].pos.x+4, population.dots[0].pos.y+4);
+      text(" " +this.id, this.dots[0].pos.x+4, this.dots[0].pos.y+4);
       line(this.initial_x, this.initial_y, this.bestWay[0].x, this.bestWay[0].y);
       for (let i = 1 ; i < this.bestWay.length; i++) {
         line(this.bestWay[i-1].x, this.bestWay[i-1].y, this.bestWay[i].x, this.bestWay[i].y);
@@ -72,16 +74,16 @@ class Population {
     let tmp = (this.minStep != 1000)? this.minStep: "not reached";
     console.log("SPECIES " + this.id +
                 "\nGeneration n°" + this.gen +
-                "\nSize : " + this.dots.length +
-                "\nFitnessSum: " + this.fitnessSum +
+                "\nSize: " + this.dots.length +
+                "\nBest Dot Fitness: " + this.dots[0].fitness +
                 "\nSteps needed to reach goal: " + tmp);
 
     // create new generation based on the best element of last one
-    newDots[0] = this.dots[this.bestDot].clone();
+    newDots[0] = this.dots[this.bestDot].clone(this.initial_x, this.initial_y);
     newDots[0].isBest = true;
     for (let i = 1; i < this.dots.length; i++) {
       let parent = this.selectParent();
-      newDots[i] = parent.clone();
+      newDots[i] = parent.clone(this.initial_x, this.initial_y);
     }
     this.dots = newDots;
     this.bestWay = [];

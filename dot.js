@@ -9,9 +9,9 @@ class Dot {
   fitness = 0;
 
 
-  constructor() {
+  constructor(posX, posY) {
       this.brain = new Brain(1000);
-      this.pos = new Vector(width/2, height-10);
+      this.pos = new Vector(posX, posY);
       this.vel = new Vector(0,0);
       this.acc = new Vector(0,0);
   }
@@ -69,8 +69,8 @@ class Dot {
     }
   }
 
-  clone() {
-    let clone = new Dot();
+  clone(posX, posY) {
+    let clone = new Dot(posX, posY);
     clone.brain = this.brain.clone();
     return clone;
   }

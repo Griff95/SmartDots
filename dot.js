@@ -10,10 +10,10 @@ class Dot {
 
 
   constructor(posX, posY) {
-      this.brain = new Brain(1000);
-      this.pos = new Vector(posX, posY);
-      this.vel = new Vector(0,0);
-      this.acc = new Vector(0,0);
+    this.brain = new Brain(1000);
+    this.pos = new Vector(posX, posY);
+    this.vel = new Vector(0, 0);
+    this.acc = new Vector(0, 0);
   }
 
   show() {
@@ -42,19 +42,15 @@ class Dot {
   update(obstacles) {
     if (!this.dead && !this.reachedGoal) {
       this.move();
-      if (this.pos.x < 2 || this.pos.y < 2 || this.pos.y > height-2 || this.pos.x > width-2){ // if near edges, kill it
+      if (this.pos.x < 2 || this.pos.y < 2 || this.pos.y > height - 2 || this.pos.x > width - 2) { // if near edges, kill it
         this.dead = true;
-      }
-      else if (dist(this.pos.x, this.pos.y, goal.x, goal.y) < 5) // if reachedGoal
+      } else if (dist(this.pos.x, this.pos.y, goal.x, goal.y) < 5) // if reachedGoal
         this.reachedGoal = true;
-        // if the dot has not end but touches an obstacle
+      // if the dot has not end but touches an obstacle
       else
-        for(let obs of obstacles)
+        for (let obs of obstacles)
           // if obs.collide(pos)
-          if (this.pos.x < obs.x + obs.dim_x &&
-              this.pos.x > obs.x &&
-              this.pos.y < obs.y + obs.dim_y &&
-              this.pos.y > obs.y)
+          if (obs.contains(this.pos.x, this.pos.y))
             this.dead = true;
     }
   }
@@ -62,10 +58,10 @@ class Dot {
 
   calculateFitness() {
     if (this.reachedGoal) // if reachedGoal then fitness is based on the amount of steps it took to get there
-      this.fitness = 1.0/16.0 + 10000.0/(this.brain.step*this.brain.step);
+      this.fitness = 1.0 / 16.0 + 10000.0 / (this.brain.step * this.brain.step);
     else {
       let distanceToGoal = dist(this.pos.x, this.pos.y, goal.x, goal.y);
-      this.fitness = 1.0 / (distanceToGoal*distanceToGoal);
+      this.fitness = 1.0 / (distanceToGoal * distanceToGoal);
     }
   }
 

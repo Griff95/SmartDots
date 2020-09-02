@@ -16,7 +16,7 @@ class Population {
     this.id = id;
     this.size = size;
     for (let i = 0; i < size; i++) {
-      this.dots[i] = new Dot(width/2, height-10);
+      this.dots[i] = new Dot(width / 2, height - 10);
     }
   }
 
@@ -29,16 +29,16 @@ class Population {
       this.dots[0].show();
       fill(0);
       textSize(15);
-      text(" " +this.id, this.dots[0].pos.x+4, this.dots[0].pos.y+4);
+      text(" " + this.id, this.dots[0].pos.x + 4, this.dots[0].pos.y + 4);
       line(this.initial_x, this.initial_y, this.bestWay[0].x, this.bestWay[0].y);
-      for (let i = 1 ; i < this.bestWay.length; i++) {
-        line(this.bestWay[i-1].x, this.bestWay[i-1].y, this.bestWay[i].x, this.bestWay[i].y);
+      for (let i = 1; i < this.bestWay.length; i++) {
+        line(this.bestWay[i - 1].x, this.bestWay[i - 1].y, this.bestWay[i].x, this.bestWay[i].y);
       }
     }
   }
 
   update(obstacles) {
-    for(let d of this.dots) {
+    for (let d of this.dots) {
       // if the dot has already taken more steps than the best dot to reach the goal
       if (d.brain.step > this.minStep)
         d.dead = true;
@@ -48,9 +48,12 @@ class Population {
     }
 
     // feed best way
-    if (this.dots[0].isBest){
+    if (this.dots[0].isBest) {
       // console.log(this.dots[0].brain.step-1);
-      this.bestWay[this.dots[0].brain.step-1] = Object.create({ x: this.dots[0].pos.x, y: this.dots[0].pos.y});
+      this.bestWay[this.dots[0].brain.step - 1] = Object.create({
+        x: this.dots[0].pos.x,
+        y: this.dots[0].pos.y
+      });
     }
   }
 
@@ -71,12 +74,12 @@ class Population {
     let newDots = [];
     this.setBestDot();
     this.calculateFitnessSum();
-    let tmp = (this.minStep != 1000)? this.minStep: "not reached";
+    let tmp = (this.minStep != 1000) ? this.minStep : "not reached";
     console.log("SPECIES " + this.id +
-                "\nGeneration n°" + this.gen +
-                "\nSize: " + this.dots.length +
-                "\nBest Dot Fitness: " + this.dots[0].fitness +
-                "\nSteps needed to reach goal: " + tmp);
+      "\nGeneration n°" + this.gen +
+      "\nSize: " + this.dots.length +
+      "\nBest Dot Fitness: " + this.dots[0].fitness +
+      "\nSteps needed to reach goal: " + tmp);
 
     // create new generation based on the best element of last one
     newDots[0] = this.dots[this.bestDot].clone(this.initial_x, this.initial_y);
@@ -92,7 +95,7 @@ class Population {
 
   calculateFitnessSum() {
     this.fitnessSum = 0;
-    for (let i = 0 ; i < this.dots.length; i++) {
+    for (let i = 0; i < this.dots.length; i++) {
       this.fitnessSum += this.dots[i].fitness;
     }
   }
@@ -120,8 +123,8 @@ class Population {
   setBestDot() {
     let max = 0;
     let maxIndex = 0;
-    for(let i = 0; i < this.dots.length; i++) {
-      if (this.dots[i].fitness > max){
+    for (let i = 0; i < this.dots.length; i++) {
+      if (this.dots[i].fitness > max) {
         max = this.dots[i].fitness;
         maxIndex = i;
       }
@@ -132,6 +135,6 @@ class Population {
     // if the best dot reached the goal then reset the minimum number of steps it takes to get to the goal
     if (this.dots[this.bestDot].reachedGoal) {
       this.minStep = this.dots[this.bestDot].brain.step;
-    }
+    } else this.minStep = 1000;
   }
 }

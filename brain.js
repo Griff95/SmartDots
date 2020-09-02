@@ -8,8 +8,8 @@ class Brain {
   }
 
   randomize() {
-    for(let i = 0; i < this.size; i++) {
-      let randomAngle = random(2*PI);
+    for (let i = 0; i < this.size; i++) {
+      let randomAngle = random(2 * PI);
       // console.log("r angle: " + randomAngle);
       let randomVector = new Vector(1, 0);
       randomVector.setDirection(randomAngle);
@@ -32,8 +32,8 @@ class Brain {
     for (let i = 0; i < this.directions.length; i++) {
       let r = random(1);
       if (r < mutationRate) {
-        let randomAngle = random(2*PI);
-        let newVector = new Vector(1,0);
+        let randomAngle = random(2 * PI);
+        let newVector = new Vector(1, 0);
         newVector.setDirection(randomAngle);
         this.directions[i] = newVector;
       }

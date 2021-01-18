@@ -1,4 +1,6 @@
 //environment
+var nb_population = 8;
+var population_size = 100;
 var populations = [];
 var obstacles = [];
 var goal = new Vector(400, 10);
@@ -45,9 +47,8 @@ function setup() {
   // init population
   startPos_x = width / 2;
   startPos_y = height - 10;
-  let nb_population = 5;
   for (let i = 0; i < nb_population; i++) {
-    populations[i] = new Population(i, 100, startPos_x, startPos_y);
+    populations[i] = new Population(i, population_size, startPos_x, startPos_y);
   }
 
   // init obstacles
@@ -250,7 +251,7 @@ function deleteSelection() {
 
 function reset() {
   for (let i = 0; i < populations.length; i++) {
-    populations[i] = new Population(i, 20, startPos_x, startPos_y);
+    populations[i] = new Population(i, population_size, startPos_x, startPos_y);
   }
 }
 
